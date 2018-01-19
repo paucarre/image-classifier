@@ -7,9 +7,9 @@ import os
 import datetime
 import click
 import cv2
-from ImageDataset import ImageDataset
-from ClassLabels import ClassLabels
-from ClassifierInference import ClassifierInference
+from image_classifier.ImageDataset import ImageDataset
+from image_classifier.ClassLabels import ClassLabels
+from image_classifier.ClassifierInference import ClassifierInference
 
 @click.command()
 @click.option('--model_file', default=f'{os.getcwd()}/models/model_best.model', help='Path of the filename where the model is saved.')

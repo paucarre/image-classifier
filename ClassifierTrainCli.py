@@ -6,11 +6,11 @@ import math
 import os
 import datetime
 import click
-from PretrainedResnet import PretrainedResnet
-from ImageDataset import ImageDataset
-from F1Score import F1Score
-from ClassLabels import ClassLabels
-from ClassifierTrain import ClassifierTrain
+from image_classifier.PretrainedResnet import PretrainedResnet
+from image_classifier.ImageDataset import ImageDataset
+from image_classifier.F1Score import F1Score
+from image_classifier.ClassLabels import ClassLabels
+from image_classifier.ClassifierTrain import ClassifierTrain
 
 def loadModel(best_model_file, reset_model, class_labels):
     model = None

@@ -11,7 +11,7 @@ import click
 import torch
 import traceback
 from torchvision import transforms, utils
-from ClassLabels import ClassLabels
+from image_classifier.ClassLabels import ClassLabels
 
 class ImageDataset(Dataset):
 

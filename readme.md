@@ -36,12 +36,12 @@ The next step is creating the actual dataset splitting the images into train and
 test.
 For that you'll need to run:
 
-`python image_classifier/DatasetBuilder.py --images_folder=/home/audrey_hepburn/images --dataset_folder=/home/audrey_hepburn/dataset`
+`python DatasetBuilder.py --images_folder=/home/audrey_hepburn/images --dataset_folder=/home/audrey_hepburn/dataset`
 
 In case you have both the `images` and the `dataset` folder in the project itself (e.g. `/home/audrey_hepburn/image_classifier/images`)
 then it's enough using:
 
-`python image_classifier/DatasetBuilder.py`.
+`python DatasetBuilder.py`.
 
 You can also set the percentage of the test set by using the option `--test_percentage`. By default it's 10%. Check `--help` option for a full description of the available options:
 ```
@@ -73,7 +73,7 @@ That will automatically download a deep convolutional network (resnet18) trained
 Keep in mind that you decide to change the number of class labels, you'll need to reset
 the model again. The model's new classifier is initialized using [xavier initialization](http://pytorch.org/docs/master/_modules/torch/nn/init.html).
 
-`python image_classifier/ClassifierTrainCli.py --reset_model=true`
+`python ClassifierTrainCli.py --reset_model=true`
 
 
 During the training the log will look like:
@@ -144,14 +144,14 @@ there are the following distortions to the image for augmentation:
   - Angle distorion from -10 degrees to +10 degrees
   - Intensity, from 50% atenuation to 50% amplification
 
-### Visual Loggging
+### Visual Logging
 
 One of the options of the training script is `--visual_logging`, whcih when
 enabled allows to visualize the different distortions.
 
 For example:
 
-`python image_classifier/ClassifierTrainCli.py --visual_logging=true`
+`python ClassifierTrainCli.py --visual_logging=true`
 
 Which displays:
 
@@ -159,23 +159,23 @@ Which displays:
 
 # Inference
 
-For inference there is a convenient CLI script `image_classifier/ClassifierInferenceCli.py`
+For inference there is a convenient CLI script `ClassifierInferenceCli.py`
 that can be run using:
 
-`python image_classifier/ClassifierInferenceCli.py --image_path=<PATH OF THE IMAGE>`
+`python ClassifierInferenceCli.py --image_path=<PATH OF THE IMAGE>`
 
 For example:
 
 ```
-pytorch) audrey_hepburn@audrey_hepburn-:~/image_classifier$ python image_classifier/ClassifierInferenceCli.py --image_path=images/Chickens/2916577134_97269ffab5.jpg
+pytorch) audrey_hepburn@audrey_hepburn-:~/image_classifier$ python ClassifierInferenceCli.py --image_path=images/Chickens/2916577134_97269ffab5.jpg
 { 'class_label': 'Chickens', 'probability': 0.9995 }
-(pytorch) audrey_hepburn@audrey_hepburn-:~/image_classifier$ python image_classifier/ClassifierInferenceCli.py --image_path=images/Cows/483647887_10e32baf7f.jpg
+(pytorch) audrey_hepburn@audrey_hepburn-:~/image_classifier$ python ClassifierInferenceCli.py --image_path=images/Cows/483647887_10e32baf7f.jpg
 { 'class_label': 'Cows', 'probability': 0.9679 }
 ```
 
 The results are in JSON to ease integration with other projects.
 
-There is also the script `image_classifier/ClassifierInference.py` that can
+There is also the script `ClassifierInference.py` that can
 be used in third party projects to do inference.
 
 For example:

@@ -6,10 +6,10 @@ import math
 import os
 import datetime
 import click
-from PretrainedResnet import PretrainedResnet
-from ImageDataset import ImageDataset
-from F1Score import F1Score
-from ClassLabels import ClassLabels
+from image_classifier.PretrainedResnet import PretrainedResnet
+from image_classifier.ImageDataset import ImageDataset
+from image_classifier.F1Score import F1Score
+from image_classifier.ClassLabels import ClassLabels
 
 class ClassifierTrain():
 

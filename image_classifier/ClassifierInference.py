@@ -7,8 +7,8 @@ import os
 import datetime
 import click
 import cv2
-from ImageDataset import ImageDataset
-from ClassLabels import ClassLabels
+from image_classifier.ImageDataset import ImageDataset
+from image_classifier.ClassLabels import ClassLabels
 
 class ClassifierInference():
 

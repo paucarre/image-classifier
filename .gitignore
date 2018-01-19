@@ -1,3 +1,4 @@
+*.ipynb
 nohup.out
 *.model
 dataset/*
