@@ -14,21 +14,25 @@ The environment name is called `pytorch`, and you can enable it by using `source
 Keep in mind, if the `pytorch` anaconda environment is not enabled, it'll fail to work.
 
 # Creating the dataset
+First of all, in case the `./bin/setup.sh` did not create them, it's
+convenient to create the folders `images`, `models` and `dataset` in the
+project root.
+
 Before training you'll need to have a set of images which you will need to
 store in a directory using the following structure:`<CLASS_LABEL>/<IMAGE_NAME>`
 
 For example, if you have a dataset of images of trees and plants, your final
 dataset shall look like:
 ```
-/home/audrey_hepburn/images/tree/wild_tree.jpg
-/home/audrey_hepburn/images/tree/pine_32835.jpg
-/home/audrey_hepburn/images/tree/alpen_baum.jpg
-/home/audrey_hepburn/images/tree/wild_tree.jpg
+/home/audrey_hepburn/image-classifier/images/tree/wild_tree.jpg
+/home/audrey_hepburn/image-classifier/images/tree/pine_32835.jpg
+/home/audrey_hepburn/image-classifier/images/tree/alpen_baum.jpg
+/home/audrey_hepburn/image-classifier/images/tree/wild_tree.jpg
 ...
-/home/audrey_hepburn/images/plant/A001_orchid.jpg
-/home/audrey_hepburn/images/plant/lavander_4323.jpg
-/home/audrey_hepburn/images/plant/SAGE_Italy.jpg
-/home/audrey_hepburn/images/plant/photo_dill.jpg
+/home/audrey_hepburn/image-classifier/images/plant/A001_orchid.jpg
+/home/audrey_hepburn/image-classifier/images/plant/lavander_4323.jpg
+/home/audrey_hepburn/image-classifier/images/plant/SAGE_Italy.jpg
+/home/audrey_hepburn/image-classifier/images/plant/photo_dill.jpg
 ...
 ```
 
@@ -36,7 +40,7 @@ The next step is creating the actual dataset splitting the images into train and
 test.
 For that you'll need to run:
 
-`python DatasetBuilder.py --images_folder=/home/audrey_hepburn/images --dataset_folder=/home/audrey_hepburn/dataset`
+`python DatasetBuilder.py --images_folder=/home/audrey_hepburn/image-classifier/images --dataset_folder=/home/audrey_hepburn/image-classifier/dataset`
 
 In case you have both the `images` and the `dataset` folder in the project itself (e.g. `/home/audrey_hepburn/image_classifier/images`)
 then it's enough using:
@@ -186,3 +190,8 @@ For example:
   image = cv2.imread(image_path, cv2.IMREAD_COLOR)
   class_label, probability = classifier_inference.predict(image)
 ```
+
+## TODO
+ - Add validation set additionally to a test and train set for final validation
+ of the model (model has a bias as it's saved when it's optimal in the test set)
+ - Make `DatasetBuilder.py` scrip incremental. Currently it overrides the whole dataset every time it runs.

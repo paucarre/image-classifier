@@ -8,3 +8,6 @@ source activate pytorch
 conda install --yes pytorch torchvision -c pytorch
 conda install --yes click
 conda install --yes -c menpo opencv3
+mkdir dataset
+mkdir images
+mkdir models
