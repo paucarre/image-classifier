@@ -73,7 +73,7 @@ That will automatically download a deep convolutional network (resnet18) trained
 Keep in mind that you decide to change the number of class labels, you'll need to reset
 the model again. The model's new classifier is initialized using [xavier initialization](http://pytorch.org/docs/master/_modules/torch/nn/init.html).
 
-`python image_classifier/ClassifierTrain.py --reset_model=true`
+`python image_classifier/ClassifierTrainCli.py --reset_model=true`
 
 
 During the training the log will look like:
@@ -110,7 +110,7 @@ in any case results will be logged
 
 See option `--help` for a complete list of training options
 ```
-Usage: ClassifierTrain.py [OPTIONS]
+Usage: ClassifierTrainCli.py [OPTIONS]
 
 Options:
   --model_file TEXT      Path of the filename where the model is saved.
@@ -141,8 +141,21 @@ side.
 Sampling during training ensures unifor sampling of each class. On top of that,
 there are the following distortions to the image for augmentation:
   - Center crop with randomize X and Y transation from 0% to 10%
-  - Angle distorion from -5 degrees to +5 degrees
-  - Intensity, from 20% atenuation to 20% amplification
+  - Angle distorion from -10 degrees to +10 degrees
+  - Intensity, from 50% atenuation to 50% amplification
+
+### Visual Loggging
+
+One of the options of the training script is `--visual_logging`, whcih when
+enabled allows to visualize the different distortions.
+
+For example:
+
+`python image_classifier/ClassifierTrainCli.py --visual_logging=true`
+
+Which displays:
+
+![alt text](documentation/images/sampling.png "Logo Title Text 1")
 
 # Inference
 

@@ -66,7 +66,7 @@ class ImageDataset(Dataset):
         return crop
 
     def randomIntensity(self, image):
-        luminosity_factor = random.uniform(0.8, 1.2)
+        luminosity_factor = random.uniform(0.5, 1.5)
         for channel in range(0, 3):
             image[:, :, channel] = (((image[:, :, channel] * luminosity_factor) > 255) * image[:, :, channel]) + (((image[:, :, channel] * luminosity_factor) <= 255) * image[:, :, channel] * luminosity_factor)
         return image
@@ -74,23 +74,25 @@ class ImageDataset(Dataset):
     def centerCropParameters(self, image):
         height = image.shape[0]
         width  = image.shape[1]
-        y_start = int(height * 0.05)
-        y_end = height - int(height * 0.05)
-        x_start = int(width * 0.05)
-        x_end = width - int(width * 0.05)
+        crop_percentage = 0.1
+        y_start = int(height * crop_percentage)
+        y_end = height - int(height * crop_percentage)
+        x_start = int(width * crop_percentage)
+        x_end = width - int(width * crop_percentage)
         return y_start, y_end, x_start, x_end
 
     def randomCropParameters(self, image):
         height = image.shape[0]
         width  = image.shape[1]
-        y_start = int(random.uniform(0, int(height * 0.1)))
-        y_end = height - int(random.uniform(0, int(height * 0.1)))
-        x_start = int(random.uniform(0, int(width * 0.1)))
-        x_end = width - int(random.uniform(0, int(width * 0.1)))
+        crop_percentage_max = 0.2
+        y_start = int(random.uniform(0, int(height * crop_percentage_max)))
+        y_end = height - int(random.uniform(0, int(height * crop_percentage_max)))
+        x_start = int(random.uniform(0, int(width * crop_percentage_max)))
+        x_end = width - int(random.uniform(0, int(width * crop_percentage_max)))
         return y_start, y_end, x_start, x_end
 
     def randomRotation(self, image):
-        random_angle_distorsion =  (-random.random() * 10) +  5
+        random_angle_distorsion =  (-random.random() * 20) +  10
         image_height, image_width, _ = image.shape
         rotation_matrix = cv2.getRotationMatrix2D( (int(image_width / 2), int(image_height / 2) ), random_angle_distorsion, 1)
         image = cv2.warpAffine(image, rotation_matrix, (image_width, image_height))
@@ -125,7 +127,7 @@ class ImageDataset(Dataset):
                             cv2.imshow(f'random_crop', image)
                     image = self.randomIntensity(image)
                     if self.visual_logging:
-                            cv2.imshow(f'randomIntensity', image)
+                            cv2.imshow(f'random_intensity', image)
                             cv2.waitKey(0)
                 else:
                     y_start, y_end, x_start, x_end = self.centerCropParameters(image)

@@ -95,32 +95,3 @@ class ClassifierTrain():
                 mean_loss = loss.data[0]
                 ClassifierTrain.log(f'Epoch [{epoch+1}/{self.num_epochs}] -- Iter [{i+1}/{math.ceil(len(dataset_train)/self.batch_size)}] -- Train Loss: {mean_loss:{1}.{4}} -- Train F1-Score in Batch: {f1_score_batch.compute():{1}.{4}} -- Train F1-Score in Epoch: {f1_score_epoch.compute():{1}.{4}}')
             self.testAndSaveIfImproved()
-
-
-def loadModel(best_model_file, reset_model, class_labels):
-    model = None
-    if reset_model:
-        model = PretrainedResnet(len(class_labels))
-    else:
-        model = torch.load(best_model_file)
-    ClassifierTrain.log(model)
-    return model
-
-@click.command()
-@click.option('--model_file', default=f'{os.getcwd()}/models/model_best.model', help='Path of the filename where the model is saved.')
-@click.option('--images_folder', default=f'{os.getcwd()}/images', help='Folder where the images are stored. Each subfolder shall contain the class label and each subfolder has to contain all the images')
-@click.option('--dataset_folder', default=f'{os.getcwd()}/dataset', help='Folder where dataset is stored')
-@click.option('--visual_logging', default=False, help='Only Desktop. Display additional logging using images (e.g. image sampling). Do not use it in a server, it requires a desktop environment.')
-@click.option('--reset_model', default=False, help='Reset model (start model from scratch).')
-@click.option('--num_epochs', default=10000, help='Number of epochs.')
-@click.option('--batch_size', default=32, help='Batch size.')
-@click.option('--learning_rate', default= 0.0001, help='Learning rate')
-@click.option('--gpu', default=0, help='Only used if CUDA is detected. GPU index. Index starts from 0 to N - 1 for N GPUs in your system.')
-def train(model_file, images_folder, dataset_folder, visual_logging, reset_model, num_epochs, batch_size, learning_rate, gpu):
-    class_labels = ClassLabels(dataset_folder).labels
-    model = loadModel(model_file, reset_model, class_labels)
-    classifier_train = ClassifierTrain(model_file, class_labels, images_folder, dataset_folder, model, num_epochs, batch_size, learning_rate, gpu, visual_logging)
-    classifier_train.train()
-
-if __name__ == '__main__':
-    train()
