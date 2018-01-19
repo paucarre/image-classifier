@@ -1,14 +1,7 @@
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-import sys
-import math
 import os
-import datetime
 import click
+import torch
 from image_classifier.PretrainedResnet import PretrainedResnet
-from image_classifier.ImageDataset import ImageDataset
-from image_classifier.F1Score import F1Score
 from image_classifier.ClassLabels import ClassLabels
 from image_classifier.ClassifierTrain import ClassifierTrain
 
@@ -18,7 +11,6 @@ def loadModel(best_model_file, reset_model, class_labels):
         model = PretrainedResnet(len(class_labels))
     else:
         model = torch.load(best_model_file)
-    ClassifierTrain.log(model)
     return model
 
 @click.command()

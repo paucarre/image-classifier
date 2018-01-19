@@ -5,7 +5,6 @@ import sys
 import math
 import os
 import datetime
-import click
 from image_classifier.PretrainedResnet import PretrainedResnet
 from image_classifier.ImageDataset import ImageDataset
 from image_classifier.F1Score import F1Score

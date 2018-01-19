@@ -1,15 +1,9 @@
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-import sys
-import math
 import os
-import datetime
 import click
 import cv2
-from image_classifier.ImageDataset import ImageDataset
 from image_classifier.ClassLabels import ClassLabels
 from image_classifier.ClassifierInference import ClassifierInference
+import torch
 
 @click.command()
 @click.option('--model_file', default=f'{os.getcwd()}/models/model_best.model', help='Path of the filename where the model is saved.')

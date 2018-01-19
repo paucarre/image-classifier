@@ -5,7 +5,6 @@ import sys
 import math
 import os
 import datetime
-import click
 import cv2
 from image_classifier.ImageDataset import ImageDataset
 from image_classifier.ClassLabels import ClassLabels
