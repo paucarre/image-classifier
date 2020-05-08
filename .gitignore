@@ -1,3 +1,4 @@
+.vscode
 *.ipynb
 nohup.out
 *.model
