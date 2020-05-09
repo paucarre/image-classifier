@@ -17,7 +17,8 @@ Usually, for classification, a good method is the F1-Score. This metric takes in
 The formula is the following: 2 * (precision * recall ) / (precision + recall)
 
 ```
-For that, we develop a class to compute the average F1-score accross classes that can be found in image_classifier/F1Score.py
+For that, we develop a class to compute the average F1-score 
+accross classes that can be found in image_classifier/F1Score.py
 ```
 
 Once we establish the F1-Score as metric, we should establish the data we will use to apply the F1-Score.
@@ -26,7 +27,8 @@ The test data will be the data we are going to use to compute the F1-Score and w
 On the other side, the train data will be the only one used to train the model.
 
 ```
-To split the dataset, we develop a script to make a random split in DatasetBuilder.py
+To split the dataset, we develop a script to make a 
+random split in DatasetBuilder.py
 ```
 
 
@@ -49,8 +51,9 @@ for the classes in the ImageNet problem shall be substited by
 our problem (e.g. cows/chicken).
 
 ```
-You can see in image_classifier/PretrainedResnet.py how 
-a resnet is taken and last layer is swapped by a randomized one.
+You can see in image_classifier/PretrainedResnet.py 
+how  a resnet is taken and last layer is swapped by 
+a randomized one.
 ```
 
 # Training
@@ -68,11 +71,23 @@ or 'loss' function. It turns out that F1-Score is not directly differentiable an
 
 One of the solutions is using the SoftMax, which assumes that 
 classes are exclusive (there is a cow or a chicken but not both together). Another option is to use cross-entropy, that is suitable
-for two classes as well as multiclass. For this project, we allow multiclass and thus we have cross-entropy.
+for single-label and mutiple labels per image. For this project, we allow multiple labels per image and thus we have cross-entropy.
 
 ```
 The training can be found in image_classifier/ClassifierTrain.py
 ```
+
+Furthermore, as we want to make the best use of our train dataset,
+we're going to sample it with distortions so that the network
+learns to generalize to other datasets (for example, the test dataset)
+and does not learn the intrinsics of the dataset (ilumination, 
+pose, rotation, scale...)
+
+```
+You can find the data sampler with distortions in 
+image_classifier/ImageDataset.py
+```
+
 
 # Inference
  
@@ -81,7 +96,8 @@ or a script to use the network to extract its predictions.
 
 
 ```
-For that we have the code ClassifierInferenceCli.py to directly do predictions with images.
+For that we have the code ClassifierInferenceCli.py to 
+directly predict with image files.
 ```
 
 
