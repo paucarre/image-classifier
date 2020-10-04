@@ -1,3 +1,4 @@
+logdir
 .vscode
 *.ipynb
 nohup.out

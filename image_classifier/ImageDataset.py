@@ -15,19 +15,23 @@ from image_classifier.ClassLabels import ClassLabels
 
 class ImageDataset(Dataset):
 
-    def __init__(self, images_folder, dataset_folder, is_train, visual_logging=False, seed=None):
+    def __init__(self, images_folder, dataset_folder, dataset_type, visual_logging=False, seed=None, is_tiny=False):
+        if is_tiny:
+            self.width=32
+            self.height=32
+        else:
+            self.width=244
+            self.height=244
         random.seed(seed)
         self.dataset_folder = dataset_folder
         self.images_folder = images_folder
-        self.is_train = is_train
+        self.is_train = dataset_type == 'train'
         self.visual_logging = visual_logging
-        dataset_type = None
+        self.dataset_type = dataset_type
         self.dataset = None
         if self.is_train:
-            dataset_type = "train"
             self.dataset = {}
         else:
-            dataset_type = "test"
             self.dataset = []
         class_labels = ClassLabels(self.dataset_folder)
         self.labels = class_labels.labels
@@ -44,8 +48,8 @@ class ImageDataset(Dataset):
                     self.dataset = self.dataset + images_with_labels
                 self.length = self.length + len(images_in_labels)
 
-    def preprocess(image):
-        image = ImageDataset.scale(image)
+    def preprocess(image, width, height):
+        image = ImageDataset.scale(image, width, height)
         normalize = transforms.Normalize(
             mean=[0.485, 0.456, 0.406],
             std=[0.229, 0.224, 0.225]
@@ -98,8 +102,8 @@ class ImageDataset(Dataset):
         image = cv2.warpAffine(image, rotation_matrix, (image_width, image_height))
         return image
 
-    def scale(image):
-        return cv2.resize(image, (244, 244))
+    def scale(image, width, height):
+        return cv2.resize(image, (width, height))
 
     def __getitem__(self, index):
         attempts = 0
@@ -114,25 +118,24 @@ class ImageDataset(Dataset):
                     label_index, image_path = self.dataset[index % len(self.dataset)]
                 image_path = os.path.join(self.images_folder, image_path)
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
-                crop_paremters = None
                 if self.is_train:
                     if self.visual_logging:
                         cv2.imshow(f'original_image', image)
-                    image = self.randomRotation(image)
+                    if random.choice([True, False]):
+                        image = self.randomRotation(image)
                     if self.visual_logging:
-                            cv2.imshow(f'random_rotation', image)
-                    y_start, y_end, x_start, x_end = self.randomCropParameters(image)
-                    image = self.cropImage(image,  y_start, y_end, x_start, x_end)
+                        cv2.imshow(f'random_rotation', image)
+                    if random.choice([True, False]):
+                        y_start, y_end, x_start, x_end = self.randomCropParameters(image)
+                        image = self.cropImage(image,  y_start, y_end, x_start, x_end)
                     if self.visual_logging:
-                            cv2.imshow(f'random_crop', image)
-                    image = self.randomIntensity(image)
+                        cv2.imshow(f'random_crop', image)
+                    if random.choice([True, False]):
+                        image = self.randomIntensity(image)
                     if self.visual_logging:
-                            cv2.imshow(f'random_intensity', image)
-                            cv2.waitKey(0)
-                else:
-                    y_start, y_end, x_start, x_end = self.centerCropParameters(image)
-                    image = self.cropImage(image,  y_start, y_end, x_start, x_end)
-                return label_index, ImageDataset.preprocess(image)
+                        cv2.imshow(f'random_intensity', image)
+                        cv2.waitKey(0)
+                return label_index, ImageDataset.preprocess(image, self.width, self.height)
             except BaseException as e:
                 sys.stderr.write(f'Unable to load image {image_path}. Skipping\n')
                 sys.stderr.write(traceback.format_exc())

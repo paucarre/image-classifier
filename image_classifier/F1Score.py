@@ -14,7 +14,7 @@ class F1Score():
         true = predictions.eq(targets)
         positives = targets.eq(positive_index)
         true_and_positive = torch.mul(true, positives)
-        return true_and_positive.float().sum(0).numpy()[0]
+        return true_and_positive.float().sum(0).numpy()
 
     def falsePositive(self, positive_index, predictions, targets):
         _, predictions = torch.topk(predictions, 1, 1)
@@ -22,7 +22,7 @@ class F1Score():
         false = predictions.ne(targets)
         positives = targets.eq(positive_index)
         false_and_positive = torch.mul(false, positives)
-        return false_and_positive.float().sum(0).numpy()[0]
+        return false_and_positive.float().sum(0).numpy()
 
     def falseNegative(self, positive_index, predictions, targets):
         _, predictions = torch.topk(predictions, 1, 1)
@@ -30,7 +30,7 @@ class F1Score():
         false = predictions.ne(targets)
         negative = targets.ne(positive_index)
         false_and_negative = torch.mul(false, negative)
-        return false_and_negative.float().sum(0).numpy()[0]
+        return false_and_negative.float().sum(0).numpy()
 
     def recall(self, positive_index):
         if (self.true_positive[positive_index] + self.false_negative[positive_index]) > 0:

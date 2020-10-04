@@ -1,0 +1,31 @@
+name: image_classifier
+channels:
+  - loopbio
+  - pkgw-forge
+  - ericmjl
+  - pytorch
+  - conda-forge
+  - hcc
+dependencies:
+  - python=3.8
+  - pytorch
+  - torchvision
+  - cudatoolkit=10.1
+  - cython
+  - pyyaml
+  - colorama
+  - flask
+  - requests
+  - coverage
+  - click
+  - simplejson
+  - sympy
+  - colour
+  - jupyter
+  - bokeh
+  - ffmpeg
+  - imutils
+  - pip
+  - pip:
+    - opencv-python==4.3.0.36
+    - git+https://github.com/dry-python/returns.git

@@ -3,73 +3,20 @@ The project aims to train a neural network to learn
 to classify images by only providing a folder structure of images. It supports both Linux and MacOS and also both CPU and GPU.
 
 # Set up environment
-The project uses `andaconda` to set up the python environment and `pytorch` as
-machine learning framework.
-First step is to [install anaconda](https://conda.io/miniconda.html). Keep in mind
-that the first time you install anaconda you will have to either activate it
-or restart your compuer. In linux this means you'll need to run `source .bashrc`
-Once it's installed, run `./bin/setup.sh` that will install the python3.6 environment
-together with all the necessary dependencies.
-The environment name is called `pytorch`, and you can enable it by using `source activate pytorch`.
-Keep in mind, if the `pytorch` anaconda environment is not enabled, it'll fail to work.
+To setup the environment run:
+```
+source setup-environment.sh
+```
 
 # Creating the dataset
-First of all, in case the `./bin/setup.sh` did not create them, it's
-convenient to create the folders `images`, `models` and `dataset` in the
-project root.
+Your dataset of images should have the following structure: `<IMAGE_FOLDER>\<DATASET_TYPE>\<CLASS_LABEL>\<IMAGE_FILE>`
+Where `DATASET_TYPE` must have the following values: `TRAIN`, `VALIDATION`, `TEST`
 
-Before training you'll need to have a set of images which you will need to
-store in a directory using the following structure:`<CLASS_LABEL>/<IMAGE_NAME>`
+Once you habe the dataset, you should configure using:
+`python DatasetConfigure.py --images_folder=/home/audrey_hepburn/image-folder --dataset_folder=/home/audrey_hepburn/dataset`
 
-For example, if you have a dataset of images of trees and plants, your final
-dataset shall look like:
-```
-/home/audrey_hepburn/image-classifier/images/tree/wild_tree.jpg
-/home/audrey_hepburn/image-classifier/images/tree/pine_32835.jpg
-/home/audrey_hepburn/image-classifier/images/tree/alpen_baum.jpg
-/home/audrey_hepburn/image-classifier/images/tree/wild_tree.jpg
-...
-/home/audrey_hepburn/image-classifier/images/plant/A001_orchid.jpg
-/home/audrey_hepburn/image-classifier/images/plant/lavander_4323.jpg
-/home/audrey_hepburn/image-classifier/images/plant/SAGE_Italy.jpg
-/home/audrey_hepburn/image-classifier/images/plant/photo_dill.jpg
-...
-```
+This command will create a set of json files that will be used during sampling
 
-The next step is creating the actual dataset splitting the images into train and
-test.
-For that you'll need to run:
-
-`python DatasetBuilder.py --images_folder=/home/audrey_hepburn/image-classifier/images --dataset_folder=/home/audrey_hepburn/image-classifier/dataset`
-
-In case you have both the `images` and the `dataset` folder in the project itself (e.g. `/home/audrey_hepburn/image_classifier/images`)
-then it's enough using:
-
-`python DatasetBuilder.py`.
-
-You can also set the percentage of the test set by using the option `--test_percentage`. By default it's 10%. Check `--help` option for a full description of the available options:
-```
-Usage: DatasetBuilder.py [OPTIONS]
-
-Options:
-  --images_folder TEXT     Images folder
-  --test_percentage FLOAT  Percentage of test set between 0 and 100
-  --dataset_folder TEXT    Folder where dataset is stored
-  --help                   Show this message and exit.
-```
-
-After running the command you should get in the `dataset` folder something similar to:
-```
-dataset/
-├── tree_test.json
-├── tree_train.json
-├── plant_test.json
-├── plant_train.json
-└── labels.json
-```
-
-These files contrain the train and test set for all the classes as well as
-the order of the class labels in the network output ( `dataset/labels.json` )
 
 # Training The Model
 The first time the training starts it's necessary to add the option `--reset_model=true`.
@@ -190,8 +137,3 @@ For example:
   image = cv2.imread(image_path, cv2.IMREAD_COLOR)
   class_label, probability = classifier_inference.predict(image)
 ```
-
-## TODO
- - Add validation set additionally to a test and train set for final validation
- of the model (model has a bias as it's saved when it's optimal in the test set)
- - Make `DatasetBuilder.py` scrip incremental. Currently it overrides the whole dataset every time it runs.
